@@ -1,0 +1,7 @@
+{
+    "emmet.includeLanguages": {
+        "\"html\"": "\"html\""
+    },
+    "markdown.preview.typographer": false,
+    "markdown.preview.breaks": false
+}
