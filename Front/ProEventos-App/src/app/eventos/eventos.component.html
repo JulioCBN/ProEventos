@@ -27,11 +27,17 @@
       <th>Opções</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody *ngIf="eventos && eventos.length" >
     <tr *ngFor="let evento of eventos">
       <td>{{evento.eventoId}}</td>
-      <td>{{evento.imagemURL}}</td>
-      <td>{{evento.tema}}</td>
+      <td>
+        <!-- <img src="{{evento.imagemURL}}" alt=""> -->
+        <img src="/assets/{{evento.imagemURL}}"
+        alt=""
+        width="50px">
+
+     </td>
+      <td>"/assets/{{evento.imagemURL}}"</td>
       <td>{{evento.local}}</td>
       <td>{{evento.dateEvento}}</td>
       <td>{{evento.qtdPessoas}}</td>
@@ -39,4 +45,9 @@
       <td></td>
     </tr>
   </tbody>
+  <tfoot *ngIf="!eventos.length">
+    <tr>
+      <td colspan="8" class="text-center"><h6>Nemhum evento encontrado</h6></td>
+    </tr>
+  </tfoot>
 </table>

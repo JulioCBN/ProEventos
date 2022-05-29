@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventosComponent implements OnInit {
 
-  public eventos: any;
+  public eventos: any = [];
 
   constructor(private http: HttpClient) {
   }
@@ -22,11 +22,11 @@ export class EventosComponent implements OnInit {
       response => this.eventos = response,
       error => console.log(error)
     );
-    // this.eventos = [
-    //   { Tema: 'Angular w', Local: 'São Paulo'},
-    //   { Tema: 'Java'   , Local: 'Bahia'    },
-    //   { Tema: 'C#'     , Local: 'Minas'    }
-    // ];
+    //  this.eventos = [
+    //    { tema: 'Angular w', local: 'São Paulo'},
+    //    { tema: 'Java'   , local: 'Bahia'    },
+    //    { tema: 'C#'     , local: 'Minas'    }
+    //  ];
   }
 
 
