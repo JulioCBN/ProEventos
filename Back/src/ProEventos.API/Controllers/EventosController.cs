@@ -98,6 +98,7 @@ namespace ProEventos.API.Controllers
 
         }
 
+
         [HttpPost]
         public async Task<ActionResult> Post(Evento model)
         {
