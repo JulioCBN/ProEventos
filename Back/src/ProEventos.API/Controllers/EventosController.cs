@@ -62,11 +62,12 @@ namespace ProEventos.API.Controllers
         }
 
 
-
-
-
-
-        [HttpGet("{id}")]
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{idx}")]
         public async Task<IActionResult> GetById(int id)
         {
             //return _evento.Where(x => x.EventoId == id);
