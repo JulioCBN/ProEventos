@@ -61,6 +61,11 @@ namespace ProEventos.API.Controllers
             }
         }
 
+
+
+
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -97,7 +102,6 @@ namespace ProEventos.API.Controllers
             }
 
         }
-
 
         [HttpPost]
         public async Task<ActionResult> Post(Evento model)
