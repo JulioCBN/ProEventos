@@ -10,6 +10,5 @@ namespace ProEventos.Persistence.Contratos
         void Delete<T>(T entity) where T : class;
         void DeleteRange<T>(T[] entity) where T : class;
         Task<bool> SaveChangeAsync();
-
-
+    }
 }
