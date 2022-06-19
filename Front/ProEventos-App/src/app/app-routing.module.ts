@@ -34,8 +34,8 @@ const routes: Routes = [
   { path: 'dashboard'   , component: DashboardComponent    },
   { path: 'palestrantes', component: PalestrantesComponent },
   { path: 'contatos'    , component: ContatosComponent     },
-  //{ path: ''            , redirectTo: 'dashboard', pathMatch: 'full' },
-  //{ path: '**'          , redirectTo: 'dashboard', pathMatch: 'full' }
+  { path: ''            , redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '**'          , redirectTo: 'dashboard', pathMatch: 'full' }
 ];
 
 @NgModule({
@@ -66,5 +66,4 @@ export class AppRoutingModule { }
 //   imports: [RouterModule.forRoot(routes)],
 //   exports: [RouterModule]
 // })
-// export class AppRoutingModule { }
-
+// export class AppRoutingModule { 
