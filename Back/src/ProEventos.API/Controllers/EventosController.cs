@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using ProEventos.Application;
+using ProEventos.Application.Dtos;
 using ProEventos.Application.Contratos;
-using ProEventos.Domain;
-using ProEventos.Persistence.Contextos;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using ProEventos.Domain;
 
 namespace ProEventos.API.Controllers
 {
@@ -46,14 +42,39 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string tudo)
         {
             try
             {
-                var eventos = await _eventoService.GetAllEventosAsync(true);
-                if (eventos == null) return NotFound("Nenhum evento encontrado");
 
-                return Ok(eventos);
+                if (tudo == "1")
+                {
+                    var eventos = await _eventoService.GetAllEventosAsync(true);
+                    if (eventos == null) return NoContent(); // return NotFound("Nenhum evento encontrado");
+                    return Ok(eventos);
+                }
+                else
+                {
+                    var eventos = await _eventoService.GetAllEventosAsync2(true);
+                    if (eventos == null) return NotFound("Nenhum evento encontrado");
+                    return Ok(eventos);
+                }
+
+                //var eventoRetorno = new List<EventoDto>();
+
+                //foreach (var evento in eventos)
+                //{
+                //    eventoRetorno.Add(new EventoDto() {
+                //        Id = evento.Id,
+                //        Local = evento.Local,
+                //        DateEvento = evento.DateEvento.ToString(),
+                //        Tema = evento.Tema,
+                //        QtdPessoas = evento.QtdPessoas,
+                //        ImagemURL = evento.ImagemURL,
+                //        Telefone = evento.Telefone,
+                //        Email = evento.Email
+                //    });
+                //}
             }
             catch (Exception ex)
             {
@@ -61,12 +82,6 @@ namespace ProEventos.API.Controllers
             }
         }
 
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -75,7 +90,7 @@ namespace ProEventos.API.Controllers
             try
             {
                 var evento = await _eventoService.GetEventosByIdAsync(id, true);
-                if (evento == null) return NotFound("Evento por Id não encontrado");
+                if (evento == null) return NoContent(); //NotFound("Evento por Id não encontrado");
 
                 return Ok(evento);
             }
@@ -105,7 +120,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Evento model)
+        public async Task<ActionResult> Post(EventoDto model)
         {
             try
             {
@@ -118,16 +133,15 @@ namespace ProEventos.API.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentnar incluir eventos. Erro: {ex.Message}");
             }
-
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Evento model)
+        public async Task<IActionResult> Put(int id, EventoDto model)
         {
             try
             {
-                var evento = await _eventoService.UpdateEventos(id, model);
-                if (evento == null) return BadRequest("Erro ao tentar adicionar evento.");
+                var evento = await _eventoService.UpdateEvento(id, model);
+                if (evento == null) return NoContent();  //return BadRequest("Erro ao tentar adicionar evento.");
 
                 return Ok(evento);
             }
@@ -145,7 +159,8 @@ namespace ProEventos.API.Controllers
                 if (await _eventoService.DeleteEventos(id))
                     return Ok("Registro excluído com sucesso");
                 else
-                    return BadRequest("Registro não escluído");               
+                    throw new Exception("ocorreu um erro ao tentar deletar o evento");
+                    //return BadRequest("Registro não escluído");               
             }
             catch (Exception ex)
             {

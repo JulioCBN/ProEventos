@@ -15,5 +15,4 @@ namespace ProEventos.Domain
         public IEnumerable<RedeSocial> RedeSociais { get; set; }
         public IEnumerable<PalestranteEvento> PalestrantesEventos { get; set; }
     }
-
 }
