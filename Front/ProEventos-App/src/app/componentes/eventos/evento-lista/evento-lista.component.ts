@@ -15,6 +15,7 @@ export class EventoListaComponent implements OnInit {
 
   modalRef?: BsModalRef;
 
+  public eventoId = 0;
   public eventos: Evento[] = [];
   public eventosFiltrados: Evento[] = [];
 
@@ -56,7 +57,7 @@ export class EventoListaComponent implements OnInit {
 
   public ngOnInit() {
     this.spinner.show();
-    this.getEventos();
+    this.carregaEventos();
   }
 
   public getFoto(): string {
@@ -64,7 +65,7 @@ export class EventoListaComponent implements OnInit {
     return "\\assets\\" + this.eventos[0].imagemURL;
   }
 
-  public getEventos(): void {
+  public carregaEventos(): void {
     this.eventoService.getEventos().subscribe({
       next: (eventos: Evento[]) => {
         this.eventos = eventos
@@ -78,13 +79,40 @@ export class EventoListaComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>): void {
+  openModal(event: any, template: TemplateRef<any>, eventoId: number): void {
+    event.stopPropagation();
+    this.eventoId = eventoId;
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   confirm(): void {
     this.modalRef?.hide();
-    this.toastr.success('O registro foi excluído com sucesso!', 'Exclusão');
+    this.spinner.show();
+
+    this.eventoService.deleteEventos(this.eventoId).subscribe(
+      (result: any) => {
+        console.log(result);
+        if (result.ok)
+        {
+          this.toastr.success('O registro foi excluído com sucesso!', 'Exclusão', {
+            positionClass: 'toast-top-center',
+            //warning: 'toast-warning',
+            timeOut: 1500,
+            //success: 'toast-success',
+          });
+          this.spinner.hide();
+          this.carregaEventos();
+        }
+      },
+      (error: any) => {
+        console.log(error)
+        this.toastr.error(`erro ao tentar deletar o evento ${this.eventoId}`, "Erro", {
+          timeOut: 2000,
+        });
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    )
   }
 
   decline(): void {
@@ -94,5 +122,4 @@ export class EventoListaComponent implements OnInit {
   detalheEvento(id: number): void{
     this.router.navigate([`eventos/detalhe/${id}`])
   }
-
 }

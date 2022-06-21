@@ -26,6 +26,10 @@ import { UserComponent } from './componentes/user/user.component';
 import { LoginComponent } from './componentes/user/login/login.component';
 import { RegistrationComponent } from './componentes/user/registration/registration.component';
 import { GrupoAcessoComponent } from './grupo-acesso/grupo-acesso.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { defineLocale, ptBrLocale } from 'ngx-bootstrap/chronos';
+
+defineLocale('pt-br', ptBrLocale);
 
 @NgModule({
 
@@ -44,7 +48,7 @@ import { GrupoAcessoComponent } from './grupo-acesso/grupo-acesso.component';
     UserComponent,
     LoginComponent,
     RegistrationComponent,
-    GrupoAcessoComponent
+    GrupoAcessoComponent,
    ],
   imports: [
     BrowserModule,
@@ -64,6 +68,7 @@ import { GrupoAcessoComponent } from './grupo-acesso/grupo-acesso.component';
       preventDuplicates: true,
       progressBar: true
     }),
+    BsDatepickerModule.forRoot(),
     NgxSpinnerModule
   ],
   providers: [EventoService],

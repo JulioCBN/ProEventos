@@ -124,10 +124,10 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                var evento = await _eventoService.addEventos(model);
-                if (evento == null) return BadRequest("Erro ao tentar adicionar evento.");
+                var _evento = await _eventoService.addEventos(model);
+                if (_evento == null) return BadRequest("Erro ao tentar adicionar evento.");
 
-                return Ok(evento);
+                return Ok(new { Ok = true, evento = _evento, message = "Registro criado com sucesso" });
             }
             catch (Exception ex)
             {
@@ -140,10 +140,10 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                var evento = await _eventoService.UpdateEvento(id, model);
-                if (evento == null) return NoContent();  //return BadRequest("Erro ao tentar adicionar evento.");
+                var _evento = await _eventoService.UpdateEvento(id, model);
+                if (_evento == null) return NoContent();  //return BadRequest("Erro ao tentar adicionar evento.");
 
-                return Ok(evento);
+                return Ok(new { Ok = true, evento = _evento, message = "Registro alterado com sucesso" });
             }
             catch (Exception ex)
             {
@@ -155,11 +155,10 @@ namespace ProEventos.API.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             try
-            {
-                if (await _eventoService.DeleteEventos(id))
-                    return Ok("Registro excluído com sucesso");
-                else
-                    throw new Exception("ocorreu um erro ao tentar deletar o evento");
+            {                
+                return (await _eventoService.DeleteEventos(id)) //Ok("Registro excluído com sucesso");
+                    ? Ok(new {message = "Registro excluído com sucesso", ok = true}) 
+                    : throw new Exception("ocorreu um erro ao tentar deletar o evento");
                     //return BadRequest("Registro não escluído");               
             }
             catch (Exception ex)
